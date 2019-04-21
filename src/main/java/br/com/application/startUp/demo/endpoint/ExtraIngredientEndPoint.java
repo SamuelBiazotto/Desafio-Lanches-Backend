@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * A class used to be an end point of extra ingredients.
+ *
+ * @author Samuel Biazotto de Oliveira.
+**/
+
 @Controller
 @RestController
 @RequestMapping("extra_ ingredients")
@@ -18,11 +24,20 @@ public class ExtraIngredientEndPoint {
 
     private final ExtraIngredientsRepository extraIngredientsRepository;
 
+    /**
+     * A default constructor for extraIngredientsRepository.
+     *
+     * @author Samuel Biazotto de Oliveira.
+    **/
     @Autowired
     public ExtraIngredientEndPoint(ExtraIngredientsRepository extraIngredientsRepository) {
         this.extraIngredientsRepository = extraIngredientsRepository;
     }
 
+    /**
+     * Return a list of all extra ingredients that are stored in the database.
+     * @return a list of all extra ingredients
+    **/
     @GetMapping
     public List<ExtraIngredients> getAllExtraIngredients() throws IllegalAccessException {
         try {

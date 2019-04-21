@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * A class used to be an end point of sandwiches.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
 @Controller
 @RestController
 @RequestMapping("sandwiches")
@@ -17,10 +22,22 @@ public class SandwichesEndPoint {
 
     private final SandwichesRepository sandwichesRepository;
 
+    /**
+     * A default constructor for sandwichesRepository.
+     *
+     *
+     * @author Samuel Biazotto de Oliveira.
+     **/
     public SandwichesEndPoint(SandwichesRepository sandwichesRepository) {
         this.sandwichesRepository = sandwichesRepository;
     }
 
+    /**
+     * Method which return a list of all default sandwiches stored in the database.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @return List of all default sandwiches.
+     **/
     @GetMapping
     public List<Sandwiches> getAll() throws IllegalAccessException {
         try {

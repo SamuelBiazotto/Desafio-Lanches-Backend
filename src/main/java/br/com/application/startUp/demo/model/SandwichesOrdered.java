@@ -8,6 +8,13 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.Set;
 
+
+
+/**
+ * A class who defines the entity SandwichesOrdered.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
 @Component
 @Entity
 @Table(name = "sandwiches_ordered")

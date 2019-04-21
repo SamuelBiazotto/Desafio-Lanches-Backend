@@ -1,5 +1,12 @@
 package br.com.application.startUp.demo.utils;
 
+
+/**
+ * A enum that's used to not campare visually strings. Helps in comparison in OrderService.
+ *
+ * @author Samuel Biazotto de Olivera.
+**/
+
 public enum ExtraIngredientHelperEnum {
 
     Meat("Hamburguer de carne"),
@@ -8,7 +15,7 @@ public enum ExtraIngredientHelperEnum {
 
     Bacon("Bacon"),
 
-    Letuce("Alface");
+    Lettuce("Alface");
 
     private String descricao;
 

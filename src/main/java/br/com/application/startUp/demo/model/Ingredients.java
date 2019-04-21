@@ -6,6 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+
+/**
+ * A class who defines the entity Ingredients.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
 @Entity
 @Table(name = "ingredients")
 public class Ingredients extends Common {

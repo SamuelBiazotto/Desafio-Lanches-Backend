@@ -6,6 +6,12 @@ import br.com.application.startUp.demo.model.common.Common;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+
+/**
+ * A class who defines the entity ExtraIngredients.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
 @Entity
 @Table(name = "extra_ingredients")
 public class ExtraIngredients extends Common {

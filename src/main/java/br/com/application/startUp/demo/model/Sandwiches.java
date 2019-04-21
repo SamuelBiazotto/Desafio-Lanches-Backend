@@ -7,6 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+
+/**
+ * A class who defines the entity Sandwiches.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
 @Entity
 @Table(name = "sandwiches")
 public class Sandwiches extends Common {

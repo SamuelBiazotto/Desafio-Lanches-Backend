@@ -14,6 +14,13 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A class that contains all the logic to save sandwiches ordered with or whitout extra ingredients,
+ * save extra ingredient of each sandwiches and save the order.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
+
 @Service
 public class OrdersService {
 
@@ -23,7 +30,7 @@ public class OrdersService {
     private OrdersRepository ordersRepository;
 
     private Boolean sandwichOrderedBacon = Boolean.FALSE;
-    private Boolean sandwichOrderedLetuce = Boolean.FALSE;
+    private Boolean sandwichOrderedLettuce = Boolean.FALSE;
     private Integer sandwichOrderedMeatQuantity = 0;
     private Integer sandwichOrderedCheeseQuantity = 0;
     private Double sandwichOrderedValue = 0.0;
@@ -38,8 +45,15 @@ public class OrdersService {
 
     public OrdersService() { }
 
-
-    public Order saveSandwichesOrderedsAndSaveOrder(Set<SandwichesOrdered> sandwichesOrdereds){
+    /**
+     * Method used to save sandwiches ordereds with or whitout extra ingredients, save extra ingredients of each
+     * sandwich and save the order with that sandwiches.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param sandwichesOrdereds a set of sandwiches ordereds with or without a list of extra ingredients.
+     * @return a new order, with sandwiches ordereds with or without extra ingredients.
+     **/
+    public Order saveSandwichesOrderedsSaveExtraIngredientsAndSaveOrder(Set<SandwichesOrdered> sandwichesOrdereds){
         Set<ExtraIngredients> extraIngredientsSaved;
         Set<SandwichesOrdered> sandwichesOrderedSaved = new HashSet<>();
         Order order = new Order();
@@ -60,9 +74,9 @@ public class OrdersService {
 
             sandwichExtraIngredients = sandwichesOrdered.getExtraIngredients();
 
-            verifyIfHasBaconAndLetuceAndcomputeDefaulSandwichtValue(sandwichIngredients);
+            verifyIfHasBaconAndLettuceAndcomputeDefaulSandwichtValue(sandwichIngredients);
 
-            verifyIfHasBaconAndLetuceAndExtraQuantityOfCheeseAndMeat(sandwichExtraIngredients);
+            verifyIfHasBaconAndLettuceAndExtraQuantityOfCheeseAndMeat(sandwichExtraIngredients);
 
             addExtraIngredientsValuestoFinalValueIfNotCheeseAndMeat(sandwichExtraIngredients);
 
@@ -86,8 +100,15 @@ public class OrdersService {
 
     }
 
-
-    private void verifyIfHasBaconAndLetuceAndcomputeDefaulSandwichtValue(Set<Ingredients> ingredients){
+    /**
+     * Method which verify if a sandwich has bacon by default ingredients, and set the default value of
+     * the sandwich with their default ingredients.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param ingredients a set of ingredients, this ingredients are default of each sandwich.
+     * @return nothing.
+     **/
+    protected void verifyIfHasBaconAndLettuceAndcomputeDefaulSandwichtValue(Set<Ingredients> ingredients){
         for (Ingredients ingredient : ingredients) {
             sandwichOrderedValue += ingredient.getValue();
             if(!sandwichOrderedBacon)
@@ -95,38 +116,85 @@ public class OrdersService {
         }
     }
 
-    private void verifyIfHasBaconAndLetuceAndExtraQuantityOfCheeseAndMeat(Set<ExtraIngredients> extraIngredients){
+    /**
+     * Method which verify if a sandwich has bacon and lettuce and set the variables sandwichOrderedBacon and
+     * sandwichOrderedLettuce to true. Check the quantity of meat and cheese. All this in a set of extra ingredients.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param extraIngredients a set of extra ingredients.
+     * @return nothing.
+     **/
+    protected void verifyIfHasBaconAndLettuceAndExtraQuantityOfCheeseAndMeat(Set<ExtraIngredients> extraIngredients){
         for (ExtraIngredients extraIngredient: extraIngredients) {
             if(!sandwichOrderedBacon)
                 sandwichOrderedBacon = verifyIfHasBacon(extraIngredient.getName());
-            if(!sandwichOrderedLetuce)
-                sandwichOrderedLetuce = verifyIfHasLetuce(extraIngredient.getName());
+            if(!sandwichOrderedLettuce)
+                sandwichOrderedLettuce = verifyIfHasLettuce(extraIngredient.getName());
             hasExtraCheese(extraIngredient);
             hasExtraMeat(extraIngredient);
         }
     }
 
-    private Boolean verifyIfHasBacon(String name){
+    /**
+     * Method which verify if a sandwich has bacon or not. The method compara the name of the extra ingredient
+     * with a enumerator and return true if the name is bacon.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param name a string with the name of the extra ingredient.
+     * @return nothing.
+     **/
+    protected Boolean verifyIfHasBacon(String name){
         return name.equalsIgnoreCase(ExtraIngredientHelperEnum.Bacon.getDescricao());
     }
 
-
-    private Boolean verifyIfHasLetuce(String name){
-        return name.equalsIgnoreCase(ExtraIngredientHelperEnum.Letuce.getDescricao());
+    /**
+     * Method which verify if a sandwich has lettuce or not. The mothod compare the name of the extra ingredient
+     * with a enumerator and return true if the name is lettuce.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param name a string with the name of the extra ingredient.
+     * @return True if name is lettuce.
+     **/
+    protected Boolean verifyIfHasLettuce(String name){
+        return name.equalsIgnoreCase(ExtraIngredientHelperEnum.Lettuce.getDescricao());
     }
 
-    private void hasExtraCheese(ExtraIngredients extraIngredient){
+    /**
+     * Method wich obtains the quantity of extra cheese present in a sandwich. For each extra ingredient, this method
+     * vefiry if this extra ingredient is cheese and get his quantity to set it in the sandwichOrderedCheeseQuantity
+     * varible.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param extraIngredient a set of extra ingredients inserted in a sandwich.
+     * @return nothing.
+     **/
+    protected void hasExtraCheese(ExtraIngredients extraIngredient){
         if(extraIngredient.getName().equalsIgnoreCase(ExtraIngredientHelperEnum.Cheese.getDescricao())){
             sandwichOrderedCheeseQuantity = extraIngredient.getQuantity();
         }
     }
-    private void hasExtraMeat(ExtraIngredients extraIngredient){
+
+    /**
+     * Method wich obtains the quantity of extra meat present in a sandwich. For each extra ingredient this method verify
+     * if this extra ingredient is meat and get his quantity and set it to the sandwichOrderedMeatQuantity variable.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @param extraIngredient a set of extra ingredients inserted in a sandwich.
+     * @return nothing.
+     **/
+    protected void hasExtraMeat(ExtraIngredients extraIngredient){
         if(extraIngredient.getName().equalsIgnoreCase(ExtraIngredientHelperEnum.Meat.getDescricao())){
             sandwichOrderedMeatQuantity = extraIngredient.getQuantity();
         }
     }
 
-    private void computePromotes(){
+    /**
+     * Method who computes if promotes must be applied or not to each sandwich ordered.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing.
+     **/
+    protected void computePromotes(){
 
         if(verifiIfHasPromotionToMuchCheese()){
             toMuchCheesePromotion();
@@ -141,41 +209,93 @@ public class OrdersService {
         }
 
         if(verifiIfHasPromotionLight()){
-            ligthPromotion();
+            lightPromotion();
         }
     }
 
-    private Boolean verifiIfHasPromotionToMuchCheese(){
+    /**
+     * Method wich verify and return if a sandwich belongs to a lots of cheeser promotion. The method vefiry a variable
+     * who contains the quantity of extra cheese present in a sandwich. If this quantity is more than one the promotion
+     * is applicable to this sandwich.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @return True if the quantity of extra cheese present in the sandwich is more than one.
+     **/
+    protected Boolean verifiIfHasPromotionToMuchCheese(){
         return sandwichOrderedCheeseQuantity > 1;
     }
 
-    private Boolean verifiIfHasPromotionToMuchMeat(){
+    /**
+     * Method wich verify and return if a sandwich belongs to lots of meat promotion. The method verify a variable who contains
+     * the quantity of extra meat present in a sandwich. If this quantity is more than one than the promotion is applicable
+     * to this sandwich.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     * @return return true if the quantity of extra meat present in the sandwich is more than one.
+     **/
+    protected Boolean verifiIfHasPromotionToMuchMeat(){
         return sandwichOrderedMeatQuantity > 1;
     }
 
-    private Boolean verifiIfHasPromotionLight(){
-        return (!sandwichOrderedBacon && sandwichOrderedLetuce);
+    /**
+     * Method which verify and return if a sandwich belongs to light promotion or not. The method verify two variables
+     * to see if bacon and lettuce are present in a sandwich, if bacon is present the promotion is not applicable, otherwise
+     * if bacon is not present but lettuce is present the promotion is applicable.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return a boolean true if bacon is not present but luttuce is.
+     **/
+    protected Boolean verifiIfHasPromotionLight(){
+        return (!sandwichOrderedBacon && sandwichOrderedLettuce);
     }
 
-    private void ligthPromotion(){
+    /**
+     * Method who applies the rule of promotion ligh, which if the sandwich does not have bacon and have
+     * lettuce, win ten percent of discount on the value of that sandwich.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing
+     **/
+    protected void lightPromotion(){
         sandwichOrderedValue -= (sandwichOrderedValue*10)/100;
     }
 
-    private void toMuchCheesePromotion(){
+
+    /**
+     * Methodo who applies a rule if a promotion of a lots of cheese is contempled.  Which every three cheeses
+     * pays only two cheeses, and this value is added to the value of a sandwich.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing
+     **/
+    protected void toMuchCheesePromotion(){
         Double extraIngredientValue = ingredientsService.returnValueOfAnExtraIngredientByIngredientId(5L);
         Integer quantityOfToMuchCheesePromotion = sandwichOrderedCheeseQuantity / 3;
         Integer quantityOfCheese = sandwichOrderedCheeseQuantity- quantityOfToMuchCheesePromotion;
         sandwichOrderedValue += quantityOfCheese * extraIngredientValue;
     }
 
-    private void toMuchMeatPromotion(){
+    /**
+     * Methodo who applies a rule if a promotion of a lots of meat is contempled. Which every three meats
+     * pays only two meats, and this value is added to the value of a sandwich.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing.
+     **/
+    protected void toMuchMeatPromotion(){
         Double extraIngredientValue = ingredientsService.returnValueOfAnExtraIngredientByIngredientId(3L);
         Integer quantityOfToMuchCheesePromotion = sandwichOrderedMeatQuantity / 3;
         Integer quantityOfMeat = sandwichOrderedMeatQuantity - quantityOfToMuchCheesePromotion;
         sandwichOrderedValue += quantityOfMeat * extraIngredientValue;
     }
 
-    private void addExtraIngredientsValuestoFinalValueIfNotCheeseAndMeat(Set<ExtraIngredients> extraIngredients){
+    /**
+     * Method used to add to a value of sandwich the values of all extra ingredients, which are not meat and cheese.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @param extraIngredients a set of extra ingredients that will be included in a sandwich.
+     **/
+    protected void addExtraIngredientsValuestoFinalValueIfNotCheeseAndMeat(Set<ExtraIngredients> extraIngredients){
         for (ExtraIngredients extraIngredient : extraIngredients) {
             if (!extraIngredient.getName().equalsIgnoreCase(ExtraIngredientHelperEnum.Cheese.getDescricao()) && !extraIngredient.getName().equalsIgnoreCase(ExtraIngredientHelperEnum.Meat.getDescricao())){
                 Double extraIngredientValue = extraIngredient.getQuantity() * extraIngredient.getValue();
@@ -184,17 +304,36 @@ public class OrdersService {
         }
     }
 
-    private void addValueOfAUniqueExtraCheese(){
+    /**
+     * Method used to add to a value of a sandwich a value of only one extra cheese.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing.
+     **/
+    protected void addValueOfAUniqueExtraCheese(){
         sandwichOrderedValue += ingredientsService.returnValueOfAnExtraIngredientByIngredientId(5L);
     }
 
-    private void addValueOfAUniqueExtraMeat(){
+
+    /**
+     * Method used to add to a value of a sandwich a value of only one extra meat.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing.
+     **/
+    protected void addValueOfAUniqueExtraMeat(){
         sandwichOrderedValue += ingredientsService.returnValueOfAnExtraIngredientByIngredientId(3L);
     }
 
-    private void setVariablesToDefaultValue(){
+    /**
+     * Method used for reset the variables to their initial state for each sandwich who will be saved.
+     * 
+     * @author Samuel Biazotto de Oliveira.
+     * @return nothing.
+     **/
+    protected void setVariablesToDefaultValue(){
         sandwichOrderedBacon = Boolean.FALSE;
-        sandwichOrderedLetuce = Boolean.FALSE;
+        sandwichOrderedLettuce = Boolean.FALSE;
         sandwichOrderedMeatQuantity = 0;
         sandwichOrderedCheeseQuantity = 0;
         sandwichOrderedValue = 0.0;

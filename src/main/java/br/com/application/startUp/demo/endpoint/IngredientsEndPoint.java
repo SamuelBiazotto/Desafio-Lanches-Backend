@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * A class used to be an end point of ingredients.
+ *
+ * @author Samuel Biazotto de Oliveira.
+ **/
+
 @Controller
 @RestController
 @RequestMapping("ingredients")
@@ -16,10 +22,19 @@ public class IngredientsEndPoint {
 
     private final IngredientsRepository ingredientsRepository;
 
+    /**
+     * A default constructor for extraIngredientsRepository.
+     *
+     * @author Samuel Biazotto de Oliveira.
+     **/
     public IngredientsEndPoint(IngredientsRepository ingredientsRepository) {
         this.ingredientsRepository = ingredientsRepository;
     }
 
+    /**
+     * Return a list of all default ingredients that are stored in the database.
+     * @return a list of all default ingredients
+     **/
     @GetMapping
     public List<Ingredients> getAllIngredients() throws IllegalAccessException {
         try {
