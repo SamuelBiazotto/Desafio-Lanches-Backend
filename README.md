@@ -1,6 +1,6 @@
 # Demo 
 
-Esse projeto foi gerado pelo Srping Initializer.
+Esse projeto foi gerado pelo Spring Initializer.
 (https://start.spring.io/) versão 2.1.4.RELEASE.
 
 ## Atenção
