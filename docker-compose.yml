@@ -1,0 +1,21 @@
+version: '2'
+services:
+  web:
+    image: angular
+    build:
+     context: ../demoFront/Demo
+     dockerfile: Dockerfile
+    container_name: angular
+    restart: always
+    ports:
+      - "4200:80"
+
+  spring-boot-rest-api-app:
+    image: spring-server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/spring-boot-app

@@ -15,9 +15,9 @@ public class OrdersEndPointTest {
     @Autowired
     private OrdersEndPoint ordersEndPoint;
 
-    @Test
-    public void testSaveOrder() {
-        Set<SandwichesOrdered> sandwichesOrdered = new HashSet<>();
-        ordersEndPoint.saveOrder(sandwichesOrdered);
-    }
+//    @Test
+//    public void testSaveOrder() {
+//        Set<SandwichesOrdered> sandwichesOrdered = new HashSet<>();
+//        ordersEndPoint.saveOrder(sandwichesOrdered);
+//    }
 }

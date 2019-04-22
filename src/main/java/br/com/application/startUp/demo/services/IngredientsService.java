@@ -20,6 +20,7 @@ public class IngredientsService {
      * A default constructor to use ingredientsRepository.
      *
      * @author Samuel Biazotto de Oliveira.
+     * @param ingredientsRepository repository of the class ingredients.
      **/
     public IngredientsService(IngredientsRepository ingredientsRepository) {
         this.ingredientsRepository = ingredientsRepository;
