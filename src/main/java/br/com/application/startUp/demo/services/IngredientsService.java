@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class IngredientsService {
 
-    private final IngredientsRepository ingredientsRepository;
+    private IngredientsRepository ingredientsRepository;
 
 
     /**
@@ -25,6 +25,8 @@ public class IngredientsService {
     public IngredientsService(IngredientsRepository ingredientsRepository) {
         this.ingredientsRepository = ingredientsRepository;
     }
+
+    public IngredientsService() {}
 
 
     /**

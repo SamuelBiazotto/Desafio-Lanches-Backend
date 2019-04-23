@@ -27,6 +27,7 @@ public class ExtraIngredientEndPoint {
     /**
      * A default constructor for extraIngredientsRepository.
      *
+     * @param extraIngredientsRepository constructor default for ExtraIngredientRepository.
      * @author Samuel Biazotto de Oliveira.
     **/
     @Autowired
@@ -36,6 +37,7 @@ public class ExtraIngredientEndPoint {
 
     /**
      * Return a list of all extra ingredients that are stored in the database.
+     * @throws IllegalAccessException if can't get all extra ingredinets
      * @return a list of all extra ingredients
     **/
     @GetMapping

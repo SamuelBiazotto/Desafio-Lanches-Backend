@@ -3,7 +3,8 @@ services:
   web:
     image: angular
     build:
-     context: ../demoFront/Demo
+     #context: ../demoFront/Demo
+     context: ../Desafio-Lanches-Frontend
      dockerfile: Dockerfile
     container_name: angular
     restart: always

@@ -85,7 +85,8 @@ public class OrdersService {
             sandwichesOrdered.setSandwichesId(sandwichesOrdered.getSandwiches().getId());
             sandwichesOrdered.setValue(sandwichOrderedValue);
 
-            sandwichesOrderedSaved.add(sandwichesOrderedRepository.save(sandwichesOrdered));
+            sandwichesOrderedRepository.save(sandwichesOrdered);
+            sandwichesOrderedSaved.add(sandwichesOrdered);
 
             setVariablesToDefaultValue();
 
@@ -96,7 +97,9 @@ public class OrdersService {
         }
         order.setSandwichesOrdereds(sandwichesOrderedSaved);
 
-        return ordersRepository.save(order);
+        ordersRepository.save(order);
+
+        return order;
 
     }
 
@@ -106,7 +109,7 @@ public class OrdersService {
      *
      * @author Samuel Biazotto de Oliveira.
      * @param ingredients a set of ingredients, this ingredients are default of each sandwich.
-     * @return nothing.
+     * .
      **/
     protected void verifyIfHasBaconAndLettuceAndcomputeDefaulSandwichtValue(Set<Ingredients> ingredients){
         for (Ingredients ingredient : ingredients) {
@@ -122,7 +125,6 @@ public class OrdersService {
      *
      * @author Samuel Biazotto de Oliveira.
      * @param extraIngredients a set of extra ingredients.
-     * @return nothing.
      **/
     protected void verifyIfHasBaconAndLettuceAndExtraQuantityOfCheeseAndMeat(Set<ExtraIngredients> extraIngredients){
         for (ExtraIngredients extraIngredient: extraIngredients) {
@@ -136,12 +138,12 @@ public class OrdersService {
     }
 
     /**
-     * Method which verify if a sandwich has bacon or not. The method compara the name of the extra ingredient
+     * Method which verify if a sandwich has bacon or not. The method compare the name of the extra ingredient
      * with a enumerator and return true if the name is bacon.
      *
      * @author Samuel Biazotto de Oliveira.
      * @param name a string with the name of the extra ingredient.
-     * @return nothing.
+     * @return boolean true if a extra ingredient of a sandwich is bacon
      **/
     protected Boolean verifyIfHasBacon(String name){
         return name.equalsIgnoreCase(ExtraIngredientHelperEnum.Bacon.getDescricao());
@@ -162,11 +164,10 @@ public class OrdersService {
     /**
      * Method wich obtains the quantity of extra cheese present in a sandwich. For each extra ingredient, this method
      * vefiry if this extra ingredient is cheese and get his quantity to set it in the sandwichOrderedCheeseQuantity
-     * varible.
+     * variable.
      *
      * @author Samuel Biazotto de Oliveira.
      * @param extraIngredient a set of extra ingredients inserted in a sandwich.
-     * @return nothing.
      **/
     protected void hasExtraCheese(ExtraIngredients extraIngredient){
         if(extraIngredient.getName().equalsIgnoreCase(ExtraIngredientHelperEnum.Cheese.getDescricao())){
@@ -175,12 +176,11 @@ public class OrdersService {
     }
 
     /**
-     * Method wich obtains the quantity of extra meat present in a sandwich. For each extra ingredient this method verify
+     * Method wich obtains the quantity of extra meat present in a sandwich. This method verify
      * if this extra ingredient is meat and get his quantity and set it to the sandwichOrderedMeatQuantity variable.
      *
      * @author Samuel Biazotto de Oliveira.
      * @param extraIngredient a set of extra ingredients inserted in a sandwich.
-     * @return nothing.
      **/
     protected void hasExtraMeat(ExtraIngredients extraIngredient){
         if(extraIngredient.getName().equalsIgnoreCase(ExtraIngredientHelperEnum.Meat.getDescricao())){
@@ -192,7 +192,6 @@ public class OrdersService {
      * Method who computes if promotes must be applied or not to each sandwich ordered.
      *
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing.
      **/
     protected void computePromotes(){
 
@@ -254,7 +253,7 @@ public class OrdersService {
      * lettuce, win ten percent of discount on the value of that sandwich.
      * 
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing
+     *
      **/
     protected void lightPromotion(){
         sandwichOrderedValue -= (sandwichOrderedValue*10)/100;
@@ -266,7 +265,7 @@ public class OrdersService {
      * pays only two cheeses, and this value is added to the value of a sandwich.
      * 
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing
+     *
      **/
     protected void toMuchCheesePromotion(){
         Double extraIngredientValue = ingredientsService.returnValueOfAnExtraIngredientByIngredientId(5L);
@@ -280,7 +279,6 @@ public class OrdersService {
      * pays only two meats, and this value is added to the value of a sandwich.
      * 
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing.
      **/
     protected void toMuchMeatPromotion(){
         Double extraIngredientValue = ingredientsService.returnValueOfAnExtraIngredientByIngredientId(3L);
@@ -308,7 +306,6 @@ public class OrdersService {
      * Method used to add to a value of a sandwich a value of only one extra cheese.
      * 
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing.
      **/
     protected void addValueOfAUniqueExtraCheese(){
         sandwichOrderedValue += ingredientsService.returnValueOfAnExtraIngredientByIngredientId(5L);
@@ -319,7 +316,6 @@ public class OrdersService {
      * Method used to add to a value of a sandwich a value of only one extra meat.
      * 
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing.
      **/
     protected void addValueOfAUniqueExtraMeat(){
         sandwichOrderedValue += ingredientsService.returnValueOfAnExtraIngredientByIngredientId(3L);
@@ -329,7 +325,6 @@ public class OrdersService {
      * Method used for reset the variables to their initial state for each sandwich who will be saved.
      * 
      * @author Samuel Biazotto de Oliveira.
-     * @return nothing.
      **/
     protected void setVariablesToDefaultValue(){
         sandwichOrderedBacon = Boolean.FALSE;
@@ -339,4 +334,75 @@ public class OrdersService {
         sandwichOrderedValue = 0.0;
     }
 
+    public ExtraIngredientsRepository getExtraIngredientsRepository() {
+        return extraIngredientsRepository;
+    }
+
+    public void setExtraIngredientsRepository(ExtraIngredientsRepository extraIngredientsRepository) {
+        this.extraIngredientsRepository = extraIngredientsRepository;
+    }
+
+    public SandwichesOrderedRepository getSandwichesOrderedRepository() {
+        return sandwichesOrderedRepository;
+    }
+
+    public void setSandwichesOrderedRepository(SandwichesOrderedRepository sandwichesOrderedRepository) {
+        this.sandwichesOrderedRepository = sandwichesOrderedRepository;
+    }
+
+    public IngredientsService getIngredientsService() {
+        return ingredientsService;
+    }
+
+    public void setIngredientsService(IngredientsService ingredientsService) {
+        this.ingredientsService = ingredientsService;
+    }
+
+    public OrdersRepository getOrdersRepository() {
+        return ordersRepository;
+    }
+
+    public void setOrdersRepository(OrdersRepository ordersRepository) {
+        this.ordersRepository = ordersRepository;
+    }
+
+    public Boolean getSandwichOrderedBacon() {
+        return sandwichOrderedBacon;
+    }
+
+    public void setSandwichOrderedBacon(Boolean sandwichOrderedBacon) {
+        this.sandwichOrderedBacon = sandwichOrderedBacon;
+    }
+
+    public Boolean getSandwichOrderedLettuce() {
+        return sandwichOrderedLettuce;
+    }
+
+    public void setSandwichOrderedLettuce(Boolean sandwichOrderedLettuce) {
+        this.sandwichOrderedLettuce = sandwichOrderedLettuce;
+    }
+
+    public Integer getSandwichOrderedMeatQuantity() {
+        return sandwichOrderedMeatQuantity;
+    }
+
+    public void setSandwichOrderedMeatQuantity(Integer sandwichOrderedMeatQuantity) {
+        this.sandwichOrderedMeatQuantity = sandwichOrderedMeatQuantity;
+    }
+
+    public Integer getSandwichOrderedCheeseQuantity() {
+        return sandwichOrderedCheeseQuantity;
+    }
+
+    public void setSandwichOrderedCheeseQuantity(Integer sandwichOrderedCheeseQuantity) {
+        this.sandwichOrderedCheeseQuantity = sandwichOrderedCheeseQuantity;
+    }
+
+    public Double getSandwichOrderedValue() {
+        return sandwichOrderedValue;
+    }
+
+    public void setSandwichOrderedValue(Double sandwichOrderedValue) {
+        this.sandwichOrderedValue = sandwichOrderedValue;
+    }
 }

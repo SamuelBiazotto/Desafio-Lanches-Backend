@@ -25,6 +25,7 @@ public class IngredientsEndPoint {
     /**
      * A default constructor for extraIngredientsRepository.
      *
+     * @param ingredientsRepository constructor default for IngredientsRepository.
      * @author Samuel Biazotto de Oliveira.
      **/
     public IngredientsEndPoint(IngredientsRepository ingredientsRepository) {
@@ -33,6 +34,8 @@ public class IngredientsEndPoint {
 
     /**
      * Return a list of all default ingredients that are stored in the database.
+     *
+     * @throws IllegalAccessException if can't get all ingredients
      * @return a list of all default ingredients
      **/
     @GetMapping

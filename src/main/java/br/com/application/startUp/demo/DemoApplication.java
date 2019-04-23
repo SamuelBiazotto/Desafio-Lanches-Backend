@@ -20,6 +20,7 @@ public class DemoApplication {
 	 * Fist method called.
 	 *
 	 * @author Samuel Biazotto de Oliveira.
+	 * @param args args default from main application
 	 * */
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);

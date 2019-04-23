@@ -25,7 +25,7 @@ public class SandwichesEndPoint {
     /**
      * A default constructor for sandwichesRepository.
      *
-     *
+     * @param sandwichesRepository constructor default for SandwichesRepository.
      * @author Samuel Biazotto de Oliveira.
      **/
     public SandwichesEndPoint(SandwichesRepository sandwichesRepository) {
@@ -35,6 +35,7 @@ public class SandwichesEndPoint {
     /**
      * Method which return a list of all default sandwiches stored in the database.
      *
+     * @throws IllegalAccessException if cant get all sandwiches
      * @author Samuel Biazotto de Oliveira.
      * @return List of all default sandwiches.
      **/
