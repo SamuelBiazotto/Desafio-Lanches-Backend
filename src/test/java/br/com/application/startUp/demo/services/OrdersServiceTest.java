@@ -4,6 +4,7 @@ import br.com.application.startUp.demo.model.*;
 import br.com.application.startUp.demo.repository.ExtraIngredientsRepository;
 import br.com.application.startUp.demo.repository.OrdersRepository;
 import br.com.application.startUp.demo.repository.SandwichesOrderedRepository;
+import org.aspectj.weaver.ast.Or;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,17 +23,20 @@ public class OrdersServiceTest {
 
     private OrdersService ordersService;
     private IngredientsService ingredientsService= null;
+    private OrdersRepository ordersRepository = null;
+    private SandwichesOrderedRepository sandwichesOrderedRepository = null;
+    private ExtraIngredientsRepository extraIngredientsRepository = null;
     @Before
     public void setup(){
-        ExtraIngredientsRepository extraIngredientsRepository = new Mockito().mock(ExtraIngredientsRepository.class);
-        SandwichesOrderedRepository sandwichesOrderedRepository = new Mockito().mock(SandwichesOrderedRepository.class);
-        OrdersRepository ordersRepository = new Mockito().mock(OrdersRepository.class);
+        extraIngredientsRepository = new Mockito().mock(ExtraIngredientsRepository.class);
+        sandwichesOrderedRepository = new Mockito().mock(SandwichesOrderedRepository.class);
+        ordersRepository = new Mockito().mock(OrdersRepository.class);
         ingredientsService = new Mockito().mock(IngredientsService.class);
         ordersService = new OrdersService(extraIngredientsRepository,sandwichesOrderedRepository,ingredientsService,ordersRepository);
 
-        Set<ExtraIngredients> sandwichExtraIngredients = new HashSet<>();
-        List<ExtraIngredients> newSandwichExtraIngredients = new ArrayList<>();
-        Mockito.when(extraIngredientsRepository.saveAll(sandwichExtraIngredients)).thenReturn(newSandwichExtraIngredients);
+        Set<ExtraIngredients> sandwichExtraIngredients = new HashSet<ExtraIngredients>();
+//        List<ExtraIngredients> newSandwichExtraIngredients = new ArrayList<>();
+        Mockito.when(extraIngredientsRepository.saveAll(sandwichExtraIngredients)).thenReturn(null);
 
         SandwichesOrdered newSandwichesOrdered = new SandwichesOrdered();
         Mockito.when(sandwichesOrderedRepository.save(newSandwichesOrdered)).thenReturn(null);
@@ -80,9 +84,9 @@ public class OrdersServiceTest {
         Set<SandwichesOrdered> sandwichesOrdereds = new HashSet<>();
         SandwichesOrdered sandwichesOrdered = new SandwichesOrdered();
         Sandwiches sandwiches = new Sandwiches();
+        Ingredients ingredients = new Ingredients();
 
         sandwiches.setName("New Sandwich");
-        Ingredients ingredients = new Ingredients();
         ingredients.setName("bacon");
         ingredients.setValue(1.00);
         Set<Ingredients> set = new HashSet();
@@ -95,6 +99,83 @@ public class OrdersServiceTest {
 
         Order result = ordersService.saveSandwichesOrderedsSaveExtraIngredientsAndSaveOrder(sandwichesOrdereds);
         assertTrue(true);
+    }
+
+    @Test
+    public void testIfAnOrderWasCreatedHavingTwoSandwichesOrderedWithOneDefaultSandwichWithTwoDefaultIngredients () {
+        Set<SandwichesOrdered> sandwichesOrdereds = new HashSet<>();
+        SandwichesOrdered sandwichesOrdered1 = new SandwichesOrdered();
+        SandwichesOrdered sandwichesOrdered2 = new SandwichesOrdered();
+        Sandwiches sandwiches1 = new Sandwiches();
+        Sandwiches sandwiches2 = new Sandwiches();
+        Ingredients ingredients1 = new Ingredients();
+        Ingredients ingredients2 = new Ingredients();
+
+        sandwiches1.setName("X-Tudo");
+        sandwiches2.setName("X-Frango");
+
+        ingredients1.setName("bacon");
+        ingredients2.setName("Ovo");
+
+        ingredients1.setValue(1.00);
+        ingredients2.setValue(2.00);
+        Set<Ingredients> set = new HashSet();
+
+        set.add(ingredients1);
+        set.add(ingredients2);
+
+        sandwiches1.setIngredients(set);
+        sandwiches2.setIngredients(set);
+
+        sandwichesOrdered1.setSandwiches(sandwiches1);
+        sandwichesOrdered2.setSandwiches(sandwiches2);
+
+        sandwichesOrdereds.add(sandwichesOrdered1);
+        sandwichesOrdereds.add(sandwichesOrdered2);
+
+        Order result = ordersService.saveSandwichesOrderedsSaveExtraIngredientsAndSaveOrder(sandwichesOrdereds);
+        assertTrue(result.getSandwichesOrdereds().size() > 1);
+    }
+
+    @Test
+    public void testIfAnOrderWasCreatedHavingOneSandwicheOrderedWithOneDefaultSandwichWithTwoDefaultIngredientsAndExtraIngredients() {
+        Set<SandwichesOrdered> sandwichesOrdereds = new HashSet<>();
+        SandwichesOrdered sandwichesOrdered = new SandwichesOrdered();
+        Sandwiches sandwiche = new Sandwiches();
+        Ingredients ingredients1 = new Ingredients();
+        Ingredients ingredients2 = new Ingredients();
+        ExtraIngredients extraIngredient = new ExtraIngredients();
+        Set<ExtraIngredients> extraIngredientsSet = new HashSet<>();
+        Set<ExtraIngredients> orderedExtraIngredients = null;
+
+        sandwiche.setName("X-Tudo");
+        ingredients1.setName("bacon");
+        ingredients2.setName("Ovo");
+        ingredients1.setValue(1.00);
+        ingredients2.setValue(2.00);
+
+        extraIngredient.setName("Alface");
+        extraIngredient.setValue(0.5);
+        extraIngredient.setQuantity(2);
+
+        Set<Ingredients> set = new HashSet();
+        extraIngredientsSet.add(extraIngredient);
+
+        set.add(ingredients1);
+        set.add(ingredients2);
+
+        sandwiche.setIngredients(set);
+
+        sandwichesOrdered.setSandwiches(sandwiche);
+        sandwichesOrdered.setExtraIngredients(extraIngredientsSet);
+
+        sandwichesOrdereds.add(sandwichesOrdered);
+
+        Order result = ordersService.saveSandwichesOrderedsSaveExtraIngredientsAndSaveOrder(sandwichesOrdereds);
+        for (SandwichesOrdered ordered : result.getSandwichesOrdereds()) {
+            orderedExtraIngredients = ordered.getExtraIngredients();
+        }
+        assertTrue(orderedExtraIngredients.contains(extraIngredient));
     }
 
     @Test
@@ -216,9 +297,5 @@ public class OrdersServiceTest {
         assertFalse(ordersService.verifiIfHasPromotionLight());
     }
 
-    @Test
-    public void t() {
-
-    }
 
 }

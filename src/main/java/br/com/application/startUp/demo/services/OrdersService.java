@@ -64,7 +64,8 @@ public class OrdersService {
             Set<ExtraIngredients> sandwichExtraIngredients = sandwichesOrdered.getExtraIngredients();
 
             if(sandwichExtraIngredients != null  && sandwichExtraIngredients.size() > 0) {
-                extraIngredientsSaved =   new HashSet<>(extraIngredientsRepository.saveAll(sandwichExtraIngredients));
+                extraIngredientsRepository.saveAll(sandwichExtraIngredients);
+                extraIngredientsSaved = sandwichExtraIngredients;
             } else {
                 extraIngredientsSaved = new HashSet<>();
             }
