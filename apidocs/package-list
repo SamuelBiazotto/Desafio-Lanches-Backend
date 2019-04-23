@@ -1,0 +1,8 @@
+br.com.application.startUp.demo
+br.com.application.startUp.demo.configuration
+br.com.application.startUp.demo.endpoint
+br.com.application.startUp.demo.model
+br.com.application.startUp.demo.model.common
+br.com.application.startUp.demo.repository
+br.com.application.startUp.demo.services
+br.com.application.startUp.demo.utils
