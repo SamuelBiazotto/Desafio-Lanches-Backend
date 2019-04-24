@@ -39,7 +39,7 @@ ingredientes personalizados.
 ## Execução
 
 * No mesmo diretório criado onde foi clonada a parte do frontend clonar o repositório: https://github.com/SamuelBiazotto/Desafio-Lanches-Backend.git;
-* Abra um terminal e execute: cd Desafio-Lances-Backend;
+* Abra um terminal e execute: cd Desafio-Lanches-Backend;
 * De permissão para o arquivo build_server_and_start_docker_compose.sh, executando sudo chmod 777 build_server_and_start_docker_compose.sh;
 * De permisão para o arquivo stop_docker_compose.sh, executando sudo chmod 777 stop_docker_compose.sh;
 * Execute: sudo ./build_server_and_start_docker_compose.sh;
